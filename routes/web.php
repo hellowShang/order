@@ -41,3 +41,11 @@ Route::get('/wechar/pay/{order_sn}', 'Controller\WecharController@pay');
 
 // 异步通知
 Route::post('/wechar/notify', 'Controller\WecharController@notify');
+
+// 查询支付状态
+Route::get('/order/payStatus/{order_sn}', 'Controller\OrderController@payStatus');
+
+// 支付成功
+Route::get('/order/success/{order_sn}',function(){
+    return view('order.success');
+});

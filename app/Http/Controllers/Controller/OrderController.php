@@ -64,4 +64,14 @@ class OrderController extends Controller
         return view('order.list',['orderInfo' => $orderInfo]);
     }
 
+    // 支付状态查询
+    public function payStatus($order_sn){
+        if(!$order_sn){
+            die(json_encode(['font' => '订单不存在', 'code' =>   5]));
+        }
+        $payStatus = DB::table('wechar_order')->where(['order_sn' => $order_sn])->value('pay_status');
+        if($payStatus){
+            echo json_encode(['font' => '支付成功，订单号：'.$order_sn, 'code' =>   6]);
+        }
+    }
 }

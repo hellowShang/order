@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class WecharController extends Controller
@@ -22,11 +23,10 @@ class WecharController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      */
-    public function pay(){
+    public function pay($order_sn){
 
         $total_fee =1;                                              // 支付金额
-        $string =substr(str_shuffle('abcdefghijklmnopqrstuvwxyz'),10,5);
-        $out_trade_no = $string.time().mt_rand(1111,9999);                  // 订单号
+        $out_trade_no = $order_sn;                  // 订单号
 
         $info = [
             'appid' => env('APPID'),                        // 公众账号ID
@@ -56,7 +56,7 @@ class WecharController extends Controller
         $data = simplexml_load_string($arr);
 
         // 将 code_url 返回给前端，前端生成 支付二维码
-        return view("wechar.pay",['code_url' => $data->code_url]);
+        return view("wechar.pay",['code_url' => $data->code_url,'order_sn' => $out_trade_no]);
     }
 
     /**
@@ -152,6 +152,7 @@ class WecharController extends Controller
     // 异步通知
     public function notify(){
         $data = file_get_contents("php://input");
+
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         is_dir('logs') or mkdir('logs',0777,true);
@@ -162,7 +163,10 @@ class WecharController extends Controller
             $sign = true;
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-
+                $res = DB::table('wechar_order')->where(['uid' => Auth::id(),'order_sn' => $xml->out_trade_no])->update(['pay_status' => 1]);
+                if($res){
+                    echo 'success';
+                }
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];

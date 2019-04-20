@@ -81,26 +81,10 @@
     @endif
 
     <div class="content">
-        <div id="qrcode">
-
+        <div>
+            支付成功，订单号为：<font color="red">{{$order_sn}}</font>
         </div>
     </div>
 </div>
-<script src="/js/qrcode.js"></script>
-<script src="/js/jquery.js"></script>
-<script>
-    new QRCode(document.getElementById("qrcode"), "{{$code_url}}");
-
-    setInterval(function(){
-        $.get(
-            '/order/payStatus/' + "{{$order_sn}}",
-            function(res){
-                if(res.code == 6){
-                    location.href="/order/success/{{$order_sn}}";
-                }
-            }
-        );
-    },2000);
-</script>
 </body>
 </html>
