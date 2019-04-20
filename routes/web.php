@@ -38,3 +38,6 @@ Route::get('/order/list', 'Controller\OrderController@orderList');
 
 // 订单支付
 Route::get('/wechar/pay/{order_sn}', 'Controller\WecharController@pay');
+
+// 异步通知
+Route::post('/wechar/notify', 'Controller\WecharController@notify');
