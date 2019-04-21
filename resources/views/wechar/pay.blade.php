@@ -95,7 +95,7 @@
         $.get(
             '/order/payStatus/' + "{{$order_sn}}",
             function(res){
-                if(res.code == 6){
+                if(res == 'ok'){
                     location.href="/order/success/{{$order_sn}}";
                 }
             }
