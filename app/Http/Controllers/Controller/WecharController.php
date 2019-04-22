@@ -164,11 +164,8 @@ class WecharController extends Controller
             $sign = true;
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-                $uid = Auth::id();
                 $order_sn = $xml->out_trade_no;
-                $res = DB::table('wechar_order')->where(['uid' => $uid,'order_sn' => $order_sn])->update(['pay_status' => 1]);
-                $ste = $uid."\n".$order_sn."\n".$res."\n";
-                file_put_contents('logs/wx_pay_notice.log',$ste,FILE_APPEND);
+                $res = DB::table('wechar_order')->where(['order_sn' => $order_sn])->update(['pay_status' => 1]);
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
