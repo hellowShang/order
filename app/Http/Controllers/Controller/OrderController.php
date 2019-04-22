@@ -56,10 +56,10 @@ class OrderController extends Controller
 
     // 订单展示
     public function orderList(){
-        $orderInfo = DB::table('wechar_order_detail as d')
-            ->join('wechar_order as o','o.oid','=','d.oid')
+        $orderInfo = DB::table('wechar_order as o')
+            ->join('wechar_order_detail as d','o.oid','=','d.oid')
             ->join('wechar_goods as g','g.goods_id','=','d.goods_id')
-            ->where(['d.uid' =>Auth::id()])
+            ->where(['o.uid' =>Auth::id()])
             ->get();
         return view('order.list',['orderInfo' => $orderInfo]);
     }
@@ -69,10 +69,14 @@ class OrderController extends Controller
         if(!$order_sn){
             die(json_encode(['font' => '订单不存在', 'code' =>   5]));
         }
-
-        $payStatus = DB::table('wechar_order')->where(['order_sn' => $order_sn])->value('pay_status');
-        if($payStatus == 1){
-            echo 'ok';
+        $arr = DB::table('wechar_order')->where(['order_sn' => $order_sn])->first();
+        if($arr->pay_status == 1){
+            echo json_encode(['msg' => 'ok','order_sn' => $arr->order_sn]);
         }
+    }
+
+    // 支付成功，消息显示
+    public function success($order_sn){
+        return view('order.success',['order_sn' => $order_sn]);
     }
 }

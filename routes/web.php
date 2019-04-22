@@ -46,6 +46,4 @@ Route::post('/wechar/notify', 'Controller\WecharController@notify');
 Route::get('/order/payStatus/{order_sn}', 'Controller\OrderController@payStatus');
 
 // 支付成功
-Route::get('/order/success/{order_sn}',function(){
-    return view('order.success');
-});
+Route::get('/order/success/{order_sn}','Controller\OrderController@success');

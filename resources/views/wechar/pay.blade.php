@@ -95,10 +95,11 @@
         $.get(
             '/order/payStatus/' + "{{$order_sn}}",
             function(res){
-                if(res == 'ok'){
-                    location.href="/order/success/{{$order_sn}}";
+                if(res.msg == 'ok'){
+                    location.href="/order/success/" + res.order_sn;
                 }
-            }
+            },
+            'json'
         );
     },2000);
 </script>

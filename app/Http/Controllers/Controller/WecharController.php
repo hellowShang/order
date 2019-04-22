@@ -165,9 +165,6 @@ class WecharController extends Controller
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
                 $res = DB::table('wechar_order')->where(['uid' => Auth::id(),'order_sn' => $xml->out_trade_no])->update(['pay_status' => 1]);
-                if($res){
-                    echo 'success';
-                }
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
