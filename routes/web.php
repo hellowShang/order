@@ -47,3 +47,9 @@ Route::get('/order/payStatus/{order_sn}', 'Controller\OrderController@payStatus'
 
 // 支付成功
 Route::get('/order/success/{order_sn}','Controller\OrderController@success');
+
+
+Route::get('/order/msg',function(){
+    $res = DB::table('wechar_order')->where(['uid' => 1,'order_sn' =>'1809_20190422005882b593bbc5114d0'])->update(['pay_status' => 1]);
+    dd($res);
+});
