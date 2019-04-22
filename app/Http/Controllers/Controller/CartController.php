@@ -7,9 +7,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redis;
 
 class CartController extends Controller
 {
+    // 商品数据详情
+    public function goodsDetail($goods_id){
+        // 商品数据详情
+        $detail = DB::table('wechar_goods')->where('goods_id',$goods_id)->first();
+
+        // 数据库的点击量操作
+//        $hot = $detail->hot + 1;
+//        DB::table('wechar_goods')->where('goods_id',$goods_id)->update(['hot' => $hot]);
+//        return view('goods.detail',['detail' => $detail]);
+
+        // redis缓存的点击量操作
+        $key = "view:goods_id:".$goods_id;
+        Redis::incr($key);
+        $detail->hot = Redis::get($key);
+        return view('goods.detail',['detail' => $detail]);
+    }
+
     // 商品数据展示
     public function goodsList(){
         // 查出商品数据 未下架的，未删除的
