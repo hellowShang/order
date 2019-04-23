@@ -34,5 +34,9 @@ class JssdkController extends Controller
         return view('wechar.test',$data);
     }
 
-    //
+    // 素材下载
+    public function media(){
+        $media_id = request()->media_id;
+        echo $media_id;
+    }
 }

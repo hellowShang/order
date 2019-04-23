@@ -94,15 +94,12 @@
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
 
-                        var img = '';
+                        var media_id = '';
                         $.each(localIds,function(index,imgsrc){
 
                             // 图片展示
                             var image = "<img src='" + imgsrc + "' class='img' width='200' height='200'>"+"<br />";
                             $('#img').append(image);
-
-                            // 图片路径拼接
-                            img += imgsrc + ',';
 
                             // 本地图片上传接口
                             wx.uploadImage({
@@ -110,22 +107,20 @@
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (d) {
                                     var serverId = d.serverId; // 返回图片的服务器端ID
-                                    alert(d);
+                                    // alert(serverId);
 
-                                    // // 下载图片接口
-                                    // wx.downloadImage({
-                                    //     serverId: '', // 需要下载的图片的服务器端ID，由uploadImage接口获得
-                                    //     isShowProgressTips: 1, // 默认为1，显示进度提示
-                                    //     success: function (res) {
-                                    //         var localId = res.localId; // 返回图片下载后的本地ID
-                                    //     }
-                                    // });
+                                    // 请求ajax传mdeia_id
+                                    $.get(
+                                        '/wechar/media',
+                                        {media_id:serverId},
+                                        function(t){
+                                            alert(t);
+                                        }
+                                    );
                                 }
                             });
-
-
                         });
-                        // alert(img);
+
                     }
                 });
             });

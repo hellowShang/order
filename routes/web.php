@@ -56,3 +56,6 @@ Route::get('/order/success/{order_sn}','Controller\OrderController@success');
 
 // 微信jssdk
 Route::get('/wechar/test','Controller\JssdkController@test');
+
+// 素材下载
+Route::get('/wechar/media','Controller\JssdkController@media');
