@@ -93,24 +93,29 @@
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        var img = '';
 
+
+                        var img = '';
                         $.each(localIds,function(index,element){
                             var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
                             $('this').after(image);
                             img += element + ',';
 
-                            // 本地图片上传接口
-                            wx.uploadImage({
-                                localId:element, // 需要上传的图片的本地ID，由chooseImage接口获得
-                                isShowProgressTips: 1, // 默认为1，显示进度提示
-                                success: function (result) {
-                                    var serverId = result.serverId; // 返回图片的服务器端ID
-                                }
-                            });
-                        });
+                            // // 本地图片上传接口
+                            // wx.uploadImage({
+                            //     localId:element, // 需要上传的图片的本地ID，由chooseImage接口获得
+                            //     isShowProgressTips: 1, // 默认为1，显示进度提示
+                            //     success: function (result) {
+                            //         var serverId = result.serverId; // 返回图片的服务器端ID
+                            //     }
+                            // });
 
+
+                        });
+                        console.log(img);
                     }
+
+
                 });
             });
         });
