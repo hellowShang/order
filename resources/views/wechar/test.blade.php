@@ -66,7 +66,9 @@
 </head>
 <body>
 <button id="btn">选择照片</button>
+<div id="img">
 
+</div>
 
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
@@ -97,21 +99,22 @@
 
                         $.each(localIds,function(index,element){
                             var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
-                            $('#btn').after(image);
+                            $('#img').append(image);
                             img += element + ',';
 
-                            // // 本地图片上传接口
-                            // wx.uploadImage({
-                            //     localId:element, // 需要上传的图片的本地ID，由chooseImage接口获得
-                            //     isShowProgressTips: 1, // 默认为1，显示进度提示
-                            //     success: function (result) {
-                            //         var serverId = result.serverId; // 返回图片的服务器端ID
-                            //     }
-                            // });
+                            // 本地图片上传接口
+                            wx.uploadImage({
+                                localId: element, // 需要上传的图片的本地ID，由chooseImage接口获得
+                                isShowProgressTips: 1, // 默认为1，显示进度提示
+                                success: function (d) {
+                                    var serverId = d.serverId; // 返回图片的服务器端ID
+                                    alert(serverId);
+                                }
+                            });
 
 
                         });
-                        console.log(img);
+                        alert(img);
                     }
                 });
             });
