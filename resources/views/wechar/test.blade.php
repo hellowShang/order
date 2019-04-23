@@ -67,9 +67,6 @@
 <body>
 <button id="btn">选择照片</button>
 
-<img src='' class='img0' width='100' height='100'><br />
-<img src='' class='img1' width='100' height='100'><br />
-<img src='' class='img2' width='100' height='100'><br />
 
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
@@ -85,11 +82,10 @@
             jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
         });
 
-
+        $('#btn').click(function(){
             // 通过ready接口处理成功验证
             wx.ready(function(){
 
-                $('#btn').click(function(){
                 // 图像接口
                 wx.chooseImage({
                     count: 3, // 默认9
@@ -97,13 +93,12 @@
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-
-
                         var img = '';
-                        $.each(localIds,function(index,v){
-                            var src = '#img'+index;
-                            $(src).attr('src',v);
-                            img += v + ',';
+
+                        $.each(localIds,function(index,element){
+                            var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
+                            $('#btn').after(image);
+                            img += element + ',';
 
                             // // 本地图片上传接口
                             // wx.uploadImage({
@@ -116,10 +111,8 @@
 
 
                         });
-                        alert(img);
+                        console.log(img);
                     }
-
-
                 });
             });
         });
