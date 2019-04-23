@@ -70,6 +70,7 @@
 <img src='' class='img0' width='100' height='100'><br />
 <img src='' class='img1' width='100' height='100'><br />
 <img src='' class='img2' width='100' height='100'><br />
+
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
@@ -115,7 +116,7 @@
 
 
                         });
-                        console.log(img);
+                        alert(img);
                     }
 
 
