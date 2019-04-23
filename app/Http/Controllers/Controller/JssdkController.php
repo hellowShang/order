@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
 class JssdkController extends Controller
 {
     // 微信jssdk
@@ -34,19 +35,30 @@ class JssdkController extends Controller
         return view('wechar.test',$data);
     }
 
-    // 素材下载
+    // 图像素材下载
     public function media(){
         $media_id = request()->media_id;
-        $access_token = getAccessToken();
-        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$media_id";
-        // 使用guzzle发送get请求
-        $client = new Client();
-        $response = $client-> get($url);
-        // 获取响应头
-        $responseInfo = $response->getHeaders();
-        // 获取文件名
-        $fileName = $responseInfo['Content-disposition'][0];
-        echo $fileName;
-
+        if($media_id){
+            $access_token = getAccessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$media_id";
+            // 使用guzzle发送get请求
+            $client = new Client();
+            $response = $client-> get($url);
+            // 获取响应头
+            $responseInfo = $response->getHeaders();
+            // 获取文件名
+            $fileName = $responseInfo['Content-disposition'][0];
+            // 文件新名字
+            $newFileName = date("Ymd",time()).substr($fileName,-10);
+            // 文件路径
+            $path = "wechar/jsimages/".$newFileName;
+            $res = Storage::put($path,$response->getBody());
+            if($res){
+                // TODO 请求成功
+                echo 'ok';
+            }else{
+                // TODO 请求失败
+            }
+        }
     }
 }
