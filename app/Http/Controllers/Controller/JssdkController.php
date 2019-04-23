@@ -25,7 +25,7 @@ class JssdkController extends Controller
 
         // 4. 数据传递到视图
         $data = [
-            'appid'  => env('WECAHR_APPID'),
+            'appid'  => env('WECHAR_APPID'),
             'noncestr'      => $noncestr,
             'timestamp'     => $timestamp,
             'url'           => $url,
