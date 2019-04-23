@@ -33,4 +33,6 @@ class JssdkController extends Controller
         ];
         return view('wechar.test',$data);
     }
+
+    //
 }
