@@ -79,7 +79,7 @@
             timestamp:"{{$timestamp}}", // 必填，生成签名的时间戳
             nonceStr: "{{$noncestr}}", // 必填，生成签名的随机串
             signature: "{{$signature}}",// 必填，签名
-            jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
+            jsApiList: ['chooseImage','uploadImage'] // 必填，需要使用的JS接口列表
         });
 
         $('#btn').click(function(){
