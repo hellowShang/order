@@ -27,6 +27,9 @@ Route::get('/goods/list', 'Controller\CartController@goodsList');
 // 商品详情
 Route::get('/goods/detail/{goods_id}', 'Controller\CartController@goodsDetail');
 
+// 浏览历史
+Route::get('/goods/history', 'Controller\CartController@history');
+
 // 加入购物车
 Route::get('/cart/add/{goods_id}', 'Controller\CartController@joinCart');
 
@@ -50,3 +53,6 @@ Route::get('/order/payStatus/{order_sn}', 'Controller\OrderController@payStatus'
 
 // 支付成功
 Route::get('/order/success/{order_sn}','Controller\OrderController@success');
+
+// 微信jssdk
+Route::get('/wechar/test','Controller\JssdkController@test');

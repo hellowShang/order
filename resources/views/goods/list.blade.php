@@ -19,3 +19,4 @@
         </tr>
     @endforeach
 </table>
+<a href="/goods/history">查看历史记录</a>
