@@ -66,9 +66,7 @@
 </head>
 <body>
 <button id="btn">选择照片</button>
-<div id="img">
-
-</div>
+<div id="img"></div>
 
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
@@ -95,16 +93,20 @@
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
                         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-                        var img = '';
 
-                        $.each(localIds,function(index,element){
-                            var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
+                        var img = '';
+                        $.each(localIds,function(index,imgsrc){
+
+                            // 图片展示
+                            var image = "<img src='" + imgsrc + "' class='img' width='200' height='200'>"+"<br />";
                             $('#img').append(image);
-                            img += element + ',';
+
+                            // 图片路径拼接
+                            img += imgsrc + ',';
 
                             // 本地图片上传接口
                             wx.uploadImage({
-                                localId: element, // 需要上传的图片的本地ID，由chooseImage接口获得
+                                localId: imgsrc, // 需要上传的图片的本地ID，由chooseImage接口获得
                                 isShowProgressTips: 1, // 默认为1，显示进度提示
                                 success: function (d) {
                                     var serverId = d.serverId; // 返回图片的服务器端ID
@@ -114,7 +116,7 @@
 
 
                         });
-                        alert(img);
+                        // alert(img);
                     }
                 });
             });
