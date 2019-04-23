@@ -84,10 +84,11 @@
             jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
         });
 
-        $('#btn').click(function(){
+
             // 通过ready接口处理成功验证
             wx.ready(function(){
 
+                $('#btn').click(function(){
                 // 图像接口
                 wx.chooseImage({
                     count: 3, // 默认9
@@ -98,10 +99,10 @@
 
 
                         var img = '';
-                        $.each(localIds,function(index,element){
+                        $.each(localIds,function(index,v){
                             var src = '#img'+index;
-                            $(src).attr('src',element);
-                            img += element + ',';
+                            $(src).attr('src',v);
+                            img += v + ',';
 
                             // // 本地图片上传接口
                             // wx.uploadImage({
