@@ -49,7 +49,7 @@ class JssdkController extends Controller
             // 获取文件名
             $fileName = $responseInfo['Content-disposition'][0];
             // 文件新名字
-            $newFileName = date("Ymd",time()).substr($fileName,-10);
+            $newFileName = rtrim(date("Ymd",time()).substr($fileName,-10),'"');
             // 文件路径
             $path = "wechar/jsimages/".$newFileName;
             $res = Storage::put($path,$response->getBody());
