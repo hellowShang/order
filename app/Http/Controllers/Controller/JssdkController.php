@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
-
+use GuzzleHttp\Client;
 class JssdkController extends Controller
 {
     // 微信jssdk
@@ -37,6 +37,16 @@ class JssdkController extends Controller
     // 素材下载
     public function media(){
         $media_id = request()->media_id;
-        echo $media_id;
+        $access_token = getAccessToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=$access_token&media_id=$media_id";
+        // 使用guzzle发送get请求
+        $client = new Client();
+        $response = $client-> get($url);
+        // 获取响应头
+        $responseInfo = $response->getHeaders();
+        // 获取文件名
+        $fileName = $responseInfo['Content-disposition'][0];
+        echo $fileName;
+
     }
 }
