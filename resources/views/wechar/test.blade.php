@@ -88,7 +88,7 @@
 
                 // 图像接口
                 wx.chooseImage({
-                    count: 1, // 默认9
+                    count: 3, // 默认9
                     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
                     success: function (res) {
@@ -96,9 +96,18 @@
                         var img = '';
 
                         $.each(localIds,function(index,element){
-                            var image = "<img src='" + element + "' class='img' width='100' height='100'>";
+                            var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
                             $('this').after(image);
                             img += element + ',';
+
+                            // 本地图片上传接口
+                            wx.uploadImage({
+                                localId:element, // 需要上传的图片的本地ID，由chooseImage接口获得
+                                isShowProgressTips: 1, // 默认为1，显示进度提示
+                                success: function (result) {
+                                    var serverId = result.serverId; // 返回图片的服务器端ID
+                                }
+                            });
                         });
 
                     }
