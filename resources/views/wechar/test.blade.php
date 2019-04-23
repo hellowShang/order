@@ -67,7 +67,9 @@
 <body>
 <button id="btn">选择照片</button>
 
-
+<img src='' class='img0' width='100' height='100'><br />
+<img src='' class='img1' width='100' height='100'><br />
+<img src='' class='img2' width='100' height='100'><br />
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
@@ -97,8 +99,8 @@
 
                         var img = '';
                         $.each(localIds,function(index,element){
-                            var image = "<img src='" + element + "' class='img' width='100' height='100'>"+"<br />";
-                            $('this').after(image);
+                            var src = '#img'+index;
+                            $(src).attr('src',element);
                             img += element + ',';
 
                             // // 本地图片上传接口
