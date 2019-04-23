@@ -65,25 +65,9 @@
 
 </head>
 <body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @auth
-                <a href="{{ url('/home') }}">Home</a>
-            @else
-                <a href="{{ route('login') }}">Login</a>
+<button id="btn">选择照片</button>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
 
-    <div class="content">
-        <button id="btn">选择照片</button>
-    </div>
-</div>
 <script src="/js/jquery.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
@@ -91,7 +75,7 @@
         // 通过config接口注入权限验证配置
         wx.config({
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: "{{$jsapi_ticket}}", // 必填，公众号的唯一标识
+            appId: "{{$appid}}", // 必填，公众号的唯一标识
             timestamp:"{{$timestamp}}", // 必填，生成签名的时间戳
             nonceStr: "{{$noncestr}}", // 必填，生成签名的随机串
             signature: "{{$signature}}",// 必填，签名
@@ -101,7 +85,7 @@
         $('#btn').click(function(){
             // 通过ready接口处理成功验证
             wx.ready(function(){
-     
+
                 // 图像接口
                 wx.chooseImage({
                     count: 1, // 默认9
