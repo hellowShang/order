@@ -81,16 +81,23 @@ class WecharController extends Controller
     {
         $grid = new Grid(new WecharModel);
 
-        $grid->id('Id');
-        $grid->nickname('Nickname');
-        $grid->sex('Sex');
-        $grid->headimgurl('Headimgurl');
-        $grid->subscribe_time('Subscribe time');
-        $grid->city('City');
-        $grid->province('Province');
-        $grid->country('Country');
+        $grid->id('用户Id');
+        $grid->nickname('昵称');
+        $grid->sex('性别')->display(function($sex){
+            if($sex == 1){
+                return '男';
+            }else{
+                return '女';
+            }
+        });
+        $grid->headimgurl('头像')->display(function($img){
+            return '<img src="'.$img.'" width="30px" height="30px">';
+        });
+        $grid->subscribe_time('关注时间')->display(function($time){
+            return date("Y-m-d H:i:s",$time);
+        });
         $grid->openid('Openid');
-        $grid->sub_status('Sub status');
+        $grid->sub_status('关注状态');
 
         return $grid;
     }
@@ -105,16 +112,13 @@ class WecharController extends Controller
     {
         $show = new Show(WecharModel::findOrFail($id));
 
-        $show->id('Id');
-        $show->nickname('Nickname');
-        $show->sex('Sex');
-        $show->headimgurl('Headimgurl');
-        $show->subscribe_time('Subscribe time');
-        $show->city('City');
-        $show->province('Province');
-        $show->country('Country');
+        $show->id('用户Id');
+        $show->nickname('昵称');
+        $show->sex('性别');
+        $show->headimgurl('头像');
+        $show->subscribe_time('关注时间');
         $show->openid('Openid');
-        $show->sub_status('Sub status');
+        $show->sub_status('关注状态');
 
         return $show;
     }
@@ -128,15 +132,10 @@ class WecharController extends Controller
     {
         $form = new Form(new WecharModel);
 
-        $form->text('nickname', 'Nickname');
-        $form->number('sex', 'Sex');
-        $form->text('headimgurl', 'Headimgurl');
-        $form->number('subscribe_time', 'Subscribe time');
-        $form->text('city', 'City');
-        $form->text('province', 'Province');
-        $form->text('country', 'Country');
+        $form->text('nickname', '昵称');
+        $form->number('sex', '性别');
+        $form->text('headimgurl', '头像');
         $form->text('openid', 'Openid');
-        $form->text('sub_status', 'Sub status');
 
         return $form;
     }

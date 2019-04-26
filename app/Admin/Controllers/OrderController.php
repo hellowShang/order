@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Illuminate\Foundation\Auth\User;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
@@ -81,12 +82,25 @@ class OrderController extends Controller
     {
         $grid = new Grid(new OrderModel);
 
-        $grid->oid('Oid');
-        $grid->uid('Uid');
-        $grid->order_sn('Order sn');
-        $grid->order_amount('Order amount');
-        $grid->pay_status('Pay status');
-        $grid->create_time('Create time');
+        $grid->oid('订单ID');
+        $grid->uid('用户名')->display(function($uid){
+            $arr = User::where('id',$uid)->value('name');
+            return $arr;
+        });
+        $grid->order_sn('订单号');
+        $grid->order_amount('支付总价')->display(function($amount){
+            return ($amount/100).'元';
+        });
+        $grid->pay_status('支付状态')->display(function($pay_status){
+            if($pay_status == 1){
+                return '已支付';
+            }else{
+                return '未支付';
+            }
+        });
+        $grid->create_time('下单时间')->display(function($time){
+            return date('Y-m-d H:i:s',$time);
+        });
 
         return $grid;
     }
@@ -101,12 +115,12 @@ class OrderController extends Controller
     {
         $show = new Show(OrderModel::findOrFail($id));
 
-        $show->oid('Oid');
-        $show->uid('Uid');
-        $show->order_sn('Order sn');
-        $show->order_amount('Order amount');
-        $show->pay_status('Pay status');
-        $show->create_time('Create time');
+        $show->oid('订单ID');
+        $show->uid('用户名');
+        $show->order_sn('订单号');
+        $show->order_amount('支付总价');
+        $show->pay_status('支付状态');
+        $show->create_time('下单时间');
 
         return $show;
     }
@@ -120,12 +134,11 @@ class OrderController extends Controller
     {
         $form = new Form(new OrderModel);
 
-        $form->number('oid', 'Oid');
-        $form->number('uid', 'Uid');
-        $form->text('order_sn', 'Order sn');
-        $form->number('order_amount', 'Order amount');
-        $form->text('pay_status', 'Pay status');
-        $form->number('create_time', 'Create time');
+        $form->number('oid', '订单ID');
+        $form->number('uid', '用户名');
+        $form->text('order_sn', '订单号');
+        $form->number('order_amount', '支付总价');
+        $form->text('pay_status', '支付状态');
 
         return $form;
     }

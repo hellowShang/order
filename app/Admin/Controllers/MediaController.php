@@ -23,8 +23,7 @@ class MediaController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('展示素材')
             ->body($this->grid());
     }
 
@@ -43,34 +42,6 @@ class MediaController extends Controller
             ->body($this->detail($id));
     }
 
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header('Edit')
-            ->description('description')
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header('Create')
-            ->description('description')
-            ->body($this->form());
-    }
 
     /**
      * Make a grid builder.
@@ -81,13 +52,13 @@ class MediaController extends Controller
     {
         $grid = new Grid(new MediaModel);
 
-        $grid->id('Id');
-        $grid->openid('Openid');
-        $grid->mediaid('Mediaid');
-        $grid->content('Content');
-        $grid->create_time('Create time');
-        $grid->type('Type');
-        $grid->url('Url');
+        $grid->id('素材id');
+        $grid->media_id('Media id');
+        $grid->created_at('新增时间')->display(function($time){
+            return date('Y-m-d H:i:s',$time);
+        });
+        $grid->type('素材类型');
+        $grid->url('素材路径');
 
         return $grid;
     }
@@ -103,32 +74,12 @@ class MediaController extends Controller
         $show = new Show(MediaModel::findOrFail($id));
 
         $show->id('Id');
-        $show->openid('Openid');
-        $show->mediaid('Mediaid');
-        $show->content('Content');
-        $show->create_time('Create time');
+        $show->media_id('Media id');
+        $show->created_at('Created at');
         $show->type('Type');
         $show->url('Url');
 
         return $show;
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        $form = new Form(new MediaModel);
-
-        $form->text('openid', 'Openid');
-        $form->text('mediaid', 'Mediaid');
-        $form->text('content', 'Content');
-        $form->number('create_time', 'Create time');
-        $form->text('type', 'Type');
-        $form->url('url', 'Url');
-
-        return $form;
-    }
 }

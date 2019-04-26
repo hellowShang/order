@@ -81,12 +81,19 @@ class GoodsController extends Controller
     {
         $grid = new Grid(new GoodsModel);
 
-        $grid->goods_id('Goods id');
-        $grid->goods_name('Goods name');
-        $grid->goods_price('Goods price');
-        $grid->goods_status('Goods status');
-        $grid->is_up('Is up');
-        $grid->goods_srcoe('Goods srcoe');
+        $grid->goods_id('商品ID');
+        $grid->goods_name('商品名字');
+        $grid->goods_price('商品价格')->display(function($price){
+            return ($price/100).'元';
+        });
+        $grid->is_up('是否上架')->display(function($is_up){
+            if($is_up == 1){
+                return '已上架';
+            }else{
+                return '已下架';
+            }
+        });
+        $grid->goods_srcoe('商品库存');
 
         return $grid;
     }
@@ -101,12 +108,11 @@ class GoodsController extends Controller
     {
         $show = new Show(GoodsModel::findOrFail($id));
 
-        $show->goods_id('Goods id');
-        $show->goods_name('Goods name');
-        $show->goods_price('Goods price');
-        $show->goods_status('Goods status');
-        $show->is_up('Is up');
-        $show->goods_srcoe('Goods srcoe');
+        $show->goods_id('商品ID');
+        $show->goods_name('商品名字');
+        $show->goods_price('商品价格');
+        $show->is_up('是否上架');
+        $show->goods_srcoe('商品库存');
 
         return $show;
     }
@@ -120,11 +126,10 @@ class GoodsController extends Controller
     {
         $form = new Form(new GoodsModel);
 
-        $form->text('goods_name', 'Goods name');
-        $form->number('goods_price', 'Goods price');
-        $form->text('goods_status', 'Goods status');
-        $form->text('is_up', 'Is up');
-        $form->number('goods_srcoe', 'Goods srcoe');
+        $form->text('goods_name', '商品名字');
+        $form->number('goods_price', '商品价格');
+        $form->text('is_up', '是否上架');
+        $form->number('goods_srcoe', '商品库存');
 
         return $form;
     }
