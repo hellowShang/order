@@ -8,6 +8,7 @@ class OrderModel extends Model
 {
     protected $table = 'wechar_order';
     public $timestamps = false;
+    public $primaryKey = 'oid';
 
 
     // 生成订单号
